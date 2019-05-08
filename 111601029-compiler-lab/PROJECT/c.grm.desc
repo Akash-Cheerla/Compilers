@@ -1,0 +1,1189 @@
+
+state 0:
+
+	program : . stmts 
+
+	INT	shift 9
+	ID	shift 8
+	IF	shift 7
+	WHILE	shift 6
+
+	program	goto 68
+	stmts	goto 5
+	stmt	goto 4
+	ass_exp	goto 3
+	types	goto 2
+	decs	goto 1
+
+	.	error
+
+
+state 1:
+
+	stmt : decs .  (reduce by rule 24)
+
+
+
+	.	reduce by rule 24
+
+
+state 2:
+
+	decs : types . ID SCOLON 
+	decs : types . ID ASSIGN exp SCOLON 
+
+	ID	shift 10
+
+
+	.	error
+
+
+state 3:
+
+	stmt : ass_exp . SCOLON 
+
+	SCOLON	shift 11
+
+
+	.	error
+
+
+state 4:
+
+	stmts : stmt .  (reduce by rule 1)
+	stmts : stmt . stmts 
+
+	INT	shift 9
+	ID	shift 8
+	IF	shift 7
+	WHILE	shift 6
+
+	stmts	goto 12
+	stmt	goto 4
+	ass_exp	goto 3
+	types	goto 2
+	decs	goto 1
+
+	.	reduce by rule 1
+
+
+state 5:
+
+	program : stmts .  (reduce by rule 0)
+
+
+
+	.	reduce by rule 0
+
+
+state 6:
+
+	stmt : WHILE . L_PAREN exp R_PAREN L_BRACE stmts R_BRACE 
+
+	L_PAREN	shift 13
+
+
+	.	error
+
+
+state 7:
+
+	stmt : IF . L_PAREN exp R_PAREN L_BRACE stmts R_BRACE 
+	stmt : IF . L_PAREN exp R_PAREN L_BRACE stmts R_BRACE ELSE L_BRACE stmts R_BRACE 
+
+	L_PAREN	shift 14
+
+
+	.	error
+
+
+state 8:
+
+	ass_exp : ID . ASSIGN exp 
+
+	ASSIGN	shift 15
+
+
+	.	error
+
+
+state 9:
+
+	types : INT .  (reduce by rule 4)
+
+
+
+	.	reduce by rule 4
+
+
+state 10:
+
+	decs : types ID . SCOLON 
+	decs : types ID . ASSIGN exp SCOLON 
+
+	SCOLON	shift 17
+	ASSIGN	shift 16
+
+
+	.	error
+
+
+state 11:
+
+	stmt : ass_exp SCOLON .  (reduce by rule 25)
+
+
+
+	.	reduce by rule 25
+
+
+state 12:
+
+	stmts : stmt stmts .  (reduce by rule 2)
+
+
+
+	.	reduce by rule 2
+
+
+state 13:
+
+	stmt : WHILE L_PAREN . exp R_PAREN L_BRACE stmts R_BRACE 
+
+	ID	shift 21
+	CONST	shift 20
+	L_PAREN	shift 19
+
+	exp	goto 18
+
+	.	error
+
+
+state 14:
+
+	stmt : IF L_PAREN . exp R_PAREN L_BRACE stmts R_BRACE 
+	stmt : IF L_PAREN . exp R_PAREN L_BRACE stmts R_BRACE ELSE L_BRACE stmts R_BRACE 
+
+	ID	shift 21
+	CONST	shift 20
+	L_PAREN	shift 19
+
+	exp	goto 22
+
+	.	error
+
+
+state 15:
+
+	ass_exp : ID ASSIGN . exp 
+
+	ID	shift 21
+	CONST	shift 20
+	L_PAREN	shift 19
+
+	exp	goto 23
+
+	.	error
+
+
+state 16:
+
+	decs : types ID ASSIGN . exp SCOLON 
+
+	ID	shift 21
+	CONST	shift 20
+	L_PAREN	shift 19
+
+	exp	goto 24
+
+	.	error
+
+
+state 17:
+
+	decs : types ID SCOLON .  (reduce by rule 5)
+
+
+
+	.	reduce by rule 5
+
+
+state 18:
+
+	exp : exp . PLUS exp 
+	exp : exp . MINUS exp 
+	exp : exp . MUL exp 
+	exp : exp . DIV exp 
+	exp : exp . MOD exp 
+	exp : exp . NOT_OP exp 
+	exp : exp . LT_OP exp 
+	exp : exp . GT_OP exp 
+	exp : exp . NE_OP exp 
+	exp : exp . LE_OP exp 
+	exp : exp . GE_OP exp 
+	exp : exp . EQ_OP exp 
+	exp : exp . AND_OP exp 
+	exp : exp . OR_OP exp 
+	stmt : WHILE L_PAREN exp . R_PAREN L_BRACE stmts R_BRACE 
+
+	R_PAREN	shift 39
+	PLUS	shift 38
+	MINUS	shift 37
+	MUL	shift 36
+	DIV	shift 35
+	MOD	shift 34
+	NOT_OP	shift 33
+	LT_OP	shift 32
+	GT_OP	shift 31
+	NE_OP	shift 30
+	LE_OP	shift 29
+	GE_OP	shift 28
+	EQ_OP	shift 27
+	AND_OP	shift 26
+	OR_OP	shift 25
+
+
+	.	error
+
+
+state 19:
+
+	exp : L_PAREN . exp R_PAREN 
+
+	ID	shift 21
+	CONST	shift 20
+	L_PAREN	shift 19
+
+	exp	goto 40
+
+	.	error
+
+
+state 20:
+
+	exp : CONST .  (reduce by rule 8)
+
+
+
+	.	reduce by rule 8
+
+
+state 21:
+
+	exp : ID .  (reduce by rule 7)
+
+
+
+	.	reduce by rule 7
+
+
+state 22:
+
+	exp : exp . PLUS exp 
+	exp : exp . MINUS exp 
+	exp : exp . MUL exp 
+	exp : exp . DIV exp 
+	exp : exp . MOD exp 
+	exp : exp . NOT_OP exp 
+	exp : exp . LT_OP exp 
+	exp : exp . GT_OP exp 
+	exp : exp . NE_OP exp 
+	exp : exp . LE_OP exp 
+	exp : exp . GE_OP exp 
+	exp : exp . EQ_OP exp 
+	exp : exp . AND_OP exp 
+	exp : exp . OR_OP exp 
+	stmt : IF L_PAREN exp . R_PAREN L_BRACE stmts R_BRACE 
+	stmt : IF L_PAREN exp . R_PAREN L_BRACE stmts R_BRACE ELSE L_BRACE stmts R_BRACE 
+
+	R_PAREN	shift 41
+	PLUS	shift 38
+	MINUS	shift 37
+	MUL	shift 36
+	DIV	shift 35
+	MOD	shift 34
+	NOT_OP	shift 33
+	LT_OP	shift 32
+	GT_OP	shift 31
+	NE_OP	shift 30
+	LE_OP	shift 29
+	GE_OP	shift 28
+	EQ_OP	shift 27
+	AND_OP	shift 26
+	OR_OP	shift 25
+
+
+	.	error
+
+
+state 23:
+
+	exp : exp . PLUS exp 
+	exp : exp . MINUS exp 
+	exp : exp . MUL exp 
+	exp : exp . DIV exp 
+	exp : exp . MOD exp 
+	exp : exp . NOT_OP exp 
+	exp : exp . LT_OP exp 
+	exp : exp . GT_OP exp 
+	exp : exp . NE_OP exp 
+	exp : exp . LE_OP exp 
+	exp : exp . GE_OP exp 
+	exp : exp . EQ_OP exp 
+	exp : exp . AND_OP exp 
+	exp : exp . OR_OP exp 
+	ass_exp : ID ASSIGN exp .  (reduce by rule 3)
+
+	PLUS	shift 38
+	MINUS	shift 37
+	MUL	shift 36
+	DIV	shift 35
+	MOD	shift 34
+	NOT_OP	shift 33
+	LT_OP	shift 32
+	GT_OP	shift 31
+	NE_OP	shift 30
+	LE_OP	shift 29
+	GE_OP	shift 28
+	EQ_OP	shift 27
+	AND_OP	shift 26
+	OR_OP	shift 25
+
+
+	.	reduce by rule 3
+
+
+state 24:
+
+	exp : exp . PLUS exp 
+	exp : exp . MINUS exp 
+	exp : exp . MUL exp 
+	exp : exp . DIV exp 
+	exp : exp . MOD exp 
+	exp : exp . NOT_OP exp 
+	exp : exp . LT_OP exp 
+	exp : exp . GT_OP exp 
+	exp : exp . NE_OP exp 
+	exp : exp . LE_OP exp 
+	exp : exp . GE_OP exp 
+	exp : exp . EQ_OP exp 
+	exp : exp . AND_OP exp 
+	exp : exp . OR_OP exp 
+	decs : types ID ASSIGN exp . SCOLON 
+
+	SCOLON	shift 42
+	PLUS	shift 38
+	MINUS	shift 37
+	MUL	shift 36
+	DIV	shift 35
+	MOD	shift 34
+	NOT_OP	shift 33
+	LT_OP	shift 32
+	GT_OP	shift 31
+	NE_OP	shift 30
+	LE_OP	shift 29
+	GE_OP	shift 28
+	EQ_OP	shift 27
+	AND_OP	shift 26
+	OR_OP	shift 25
+
+
+	.	error
+
+
+state 25:
+
+	exp : exp OR_OP . exp 
+
+	ID	shift 21
+	CONST	shift 20
+	L_PAREN	shift 19
+
+	exp	goto 43
+
+	.	error
+
+
+state 26:
+
+	exp : exp AND_OP . exp 
+
+	ID	shift 21
+	CONST	shift 20
+	L_PAREN	shift 19
+
+	exp	goto 44
+
+	.	error
+
+
+state 27:
+
+	exp : exp EQ_OP . exp 
+
+	ID	shift 21
+	CONST	shift 20
+	L_PAREN	shift 19
+
+	exp	goto 45
+
+	.	error
+
+
+state 28:
+
+	exp : exp GE_OP . exp 
+
+	ID	shift 21
+	CONST	shift 20
+	L_PAREN	shift 19
+
+	exp	goto 46
+
+	.	error
+
+
+state 29:
+
+	exp : exp LE_OP . exp 
+
+	ID	shift 21
+	CONST	shift 20
+	L_PAREN	shift 19
+
+	exp	goto 47
+
+	.	error
+
+
+state 30:
+
+	exp : exp NE_OP . exp 
+
+	ID	shift 21
+	CONST	shift 20
+	L_PAREN	shift 19
+
+	exp	goto 48
+
+	.	error
+
+
+state 31:
+
+	exp : exp GT_OP . exp 
+
+	ID	shift 21
+	CONST	shift 20
+	L_PAREN	shift 19
+
+	exp	goto 49
+
+	.	error
+
+
+state 32:
+
+	exp : exp LT_OP . exp 
+
+	ID	shift 21
+	CONST	shift 20
+	L_PAREN	shift 19
+
+	exp	goto 50
+
+	.	error
+
+
+state 33:
+
+	exp : exp NOT_OP . exp 
+
+	ID	shift 21
+	CONST	shift 20
+	L_PAREN	shift 19
+
+	exp	goto 51
+
+	.	error
+
+
+state 34:
+
+	exp : exp MOD . exp 
+
+	ID	shift 21
+	CONST	shift 20
+	L_PAREN	shift 19
+
+	exp	goto 52
+
+	.	error
+
+
+state 35:
+
+	exp : exp DIV . exp 
+
+	ID	shift 21
+	CONST	shift 20
+	L_PAREN	shift 19
+
+	exp	goto 53
+
+	.	error
+
+
+state 36:
+
+	exp : exp MUL . exp 
+
+	ID	shift 21
+	CONST	shift 20
+	L_PAREN	shift 19
+
+	exp	goto 54
+
+	.	error
+
+
+state 37:
+
+	exp : exp MINUS . exp 
+
+	ID	shift 21
+	CONST	shift 20
+	L_PAREN	shift 19
+
+	exp	goto 55
+
+	.	error
+
+
+state 38:
+
+	exp : exp PLUS . exp 
+
+	ID	shift 21
+	CONST	shift 20
+	L_PAREN	shift 19
+
+	exp	goto 56
+
+	.	error
+
+
+state 39:
+
+	stmt : WHILE L_PAREN exp R_PAREN . L_BRACE stmts R_BRACE 
+
+	L_BRACE	shift 57
+
+
+	.	error
+
+
+state 40:
+
+	exp : L_PAREN exp . R_PAREN 
+	exp : exp . PLUS exp 
+	exp : exp . MINUS exp 
+	exp : exp . MUL exp 
+	exp : exp . DIV exp 
+	exp : exp . MOD exp 
+	exp : exp . NOT_OP exp 
+	exp : exp . LT_OP exp 
+	exp : exp . GT_OP exp 
+	exp : exp . NE_OP exp 
+	exp : exp . LE_OP exp 
+	exp : exp . GE_OP exp 
+	exp : exp . EQ_OP exp 
+	exp : exp . AND_OP exp 
+	exp : exp . OR_OP exp 
+
+	R_PAREN	shift 58
+	PLUS	shift 38
+	MINUS	shift 37
+	MUL	shift 36
+	DIV	shift 35
+	MOD	shift 34
+	NOT_OP	shift 33
+	LT_OP	shift 32
+	GT_OP	shift 31
+	NE_OP	shift 30
+	LE_OP	shift 29
+	GE_OP	shift 28
+	EQ_OP	shift 27
+	AND_OP	shift 26
+	OR_OP	shift 25
+
+
+	.	error
+
+
+state 41:
+
+	stmt : IF L_PAREN exp R_PAREN . L_BRACE stmts R_BRACE 
+	stmt : IF L_PAREN exp R_PAREN . L_BRACE stmts R_BRACE ELSE L_BRACE stmts R_BRACE 
+
+	L_BRACE	shift 59
+
+
+	.	error
+
+
+state 42:
+
+	decs : types ID ASSIGN exp SCOLON .  (reduce by rule 6)
+
+
+
+	.	reduce by rule 6
+
+
+state 43:
+
+	exp : exp . PLUS exp 
+	exp : exp . MINUS exp 
+	exp : exp . MUL exp 
+	exp : exp . DIV exp 
+	exp : exp . MOD exp 
+	exp : exp . NOT_OP exp 
+	exp : exp . LT_OP exp 
+	exp : exp . GT_OP exp 
+	exp : exp . NE_OP exp 
+	exp : exp . LE_OP exp 
+	exp : exp . GE_OP exp 
+	exp : exp . EQ_OP exp 
+	exp : exp . AND_OP exp 
+	exp : exp . OR_OP exp 
+	exp : exp OR_OP exp .  (reduce by rule 23)
+
+	PLUS	shift 38
+	MINUS	shift 37
+	MUL	shift 36
+	DIV	shift 35
+	MOD	shift 34
+	LT_OP	shift 32
+	GT_OP	shift 31
+	NE_OP	shift 30
+	LE_OP	shift 29
+	GE_OP	shift 28
+	EQ_OP	shift 27
+	AND_OP	shift 26
+
+
+	.	reduce by rule 23
+
+
+state 44:
+
+	exp : exp . PLUS exp 
+	exp : exp . MINUS exp 
+	exp : exp . MUL exp 
+	exp : exp . DIV exp 
+	exp : exp . MOD exp 
+	exp : exp . NOT_OP exp 
+	exp : exp . LT_OP exp 
+	exp : exp . GT_OP exp 
+	exp : exp . NE_OP exp 
+	exp : exp . LE_OP exp 
+	exp : exp . GE_OP exp 
+	exp : exp . EQ_OP exp 
+	exp : exp . AND_OP exp 
+	exp : exp AND_OP exp .  (reduce by rule 22)
+	exp : exp . OR_OP exp 
+
+	PLUS	shift 38
+	MINUS	shift 37
+	MUL	shift 36
+	DIV	shift 35
+	MOD	shift 34
+	LT_OP	shift 32
+	GT_OP	shift 31
+	NE_OP	shift 30
+	LE_OP	shift 29
+	GE_OP	shift 28
+	EQ_OP	shift 27
+
+
+	.	reduce by rule 22
+
+
+state 45:
+
+	exp : exp . PLUS exp 
+	exp : exp . MINUS exp 
+	exp : exp . MUL exp 
+	exp : exp . DIV exp 
+	exp : exp . MOD exp 
+	exp : exp . NOT_OP exp 
+	exp : exp . LT_OP exp 
+	exp : exp . GT_OP exp 
+	exp : exp . NE_OP exp 
+	exp : exp . LE_OP exp 
+	exp : exp . GE_OP exp 
+	exp : exp . EQ_OP exp 
+	exp : exp EQ_OP exp .  (reduce by rule 21)
+	exp : exp . AND_OP exp 
+	exp : exp . OR_OP exp 
+
+	PLUS	shift 38
+	MINUS	shift 37
+	MUL	shift 36
+	DIV	shift 35
+	MOD	shift 34
+	LT_OP	shift 32
+	GT_OP	shift 31
+	LE_OP	shift 29
+	GE_OP	shift 28
+
+
+	.	reduce by rule 21
+
+
+state 46:
+
+	exp : exp . PLUS exp 
+	exp : exp . MINUS exp 
+	exp : exp . MUL exp 
+	exp : exp . DIV exp 
+	exp : exp . MOD exp 
+	exp : exp . NOT_OP exp 
+	exp : exp . LT_OP exp 
+	exp : exp . GT_OP exp 
+	exp : exp . NE_OP exp 
+	exp : exp . LE_OP exp 
+	exp : exp . GE_OP exp 
+	exp : exp GE_OP exp .  (reduce by rule 20)
+	exp : exp . EQ_OP exp 
+	exp : exp . AND_OP exp 
+	exp : exp . OR_OP exp 
+
+	PLUS	shift 38
+	MINUS	shift 37
+	MUL	shift 36
+	DIV	shift 35
+	MOD	shift 34
+
+
+	.	reduce by rule 20
+
+
+state 47:
+
+	exp : exp . PLUS exp 
+	exp : exp . MINUS exp 
+	exp : exp . MUL exp 
+	exp : exp . DIV exp 
+	exp : exp . MOD exp 
+	exp : exp . NOT_OP exp 
+	exp : exp . LT_OP exp 
+	exp : exp . GT_OP exp 
+	exp : exp . NE_OP exp 
+	exp : exp . LE_OP exp 
+	exp : exp LE_OP exp .  (reduce by rule 19)
+	exp : exp . GE_OP exp 
+	exp : exp . EQ_OP exp 
+	exp : exp . AND_OP exp 
+	exp : exp . OR_OP exp 
+
+	PLUS	shift 38
+	MINUS	shift 37
+	MUL	shift 36
+	DIV	shift 35
+	MOD	shift 34
+
+
+	.	reduce by rule 19
+
+
+state 48:
+
+	exp : exp . PLUS exp 
+	exp : exp . MINUS exp 
+	exp : exp . MUL exp 
+	exp : exp . DIV exp 
+	exp : exp . MOD exp 
+	exp : exp . NOT_OP exp 
+	exp : exp . LT_OP exp 
+	exp : exp . GT_OP exp 
+	exp : exp . NE_OP exp 
+	exp : exp NE_OP exp .  (reduce by rule 18)
+	exp : exp . LE_OP exp 
+	exp : exp . GE_OP exp 
+	exp : exp . EQ_OP exp 
+	exp : exp . AND_OP exp 
+	exp : exp . OR_OP exp 
+
+	PLUS	shift 38
+	MINUS	shift 37
+	MUL	shift 36
+	DIV	shift 35
+	MOD	shift 34
+	LT_OP	shift 32
+	GT_OP	shift 31
+	LE_OP	shift 29
+	GE_OP	shift 28
+
+
+	.	reduce by rule 18
+
+
+state 49:
+
+	exp : exp . PLUS exp 
+	exp : exp . MINUS exp 
+	exp : exp . MUL exp 
+	exp : exp . DIV exp 
+	exp : exp . MOD exp 
+	exp : exp . NOT_OP exp 
+	exp : exp . LT_OP exp 
+	exp : exp . GT_OP exp 
+	exp : exp GT_OP exp .  (reduce by rule 17)
+	exp : exp . NE_OP exp 
+	exp : exp . LE_OP exp 
+	exp : exp . GE_OP exp 
+	exp : exp . EQ_OP exp 
+	exp : exp . AND_OP exp 
+	exp : exp . OR_OP exp 
+
+	PLUS	shift 38
+	MINUS	shift 37
+	MUL	shift 36
+	DIV	shift 35
+	MOD	shift 34
+
+
+	.	reduce by rule 17
+
+
+state 50:
+
+	exp : exp . PLUS exp 
+	exp : exp . MINUS exp 
+	exp : exp . MUL exp 
+	exp : exp . DIV exp 
+	exp : exp . MOD exp 
+	exp : exp . NOT_OP exp 
+	exp : exp . LT_OP exp 
+	exp : exp LT_OP exp .  (reduce by rule 16)
+	exp : exp . GT_OP exp 
+	exp : exp . NE_OP exp 
+	exp : exp . LE_OP exp 
+	exp : exp . GE_OP exp 
+	exp : exp . EQ_OP exp 
+	exp : exp . AND_OP exp 
+	exp : exp . OR_OP exp 
+
+	PLUS	shift 38
+	MINUS	shift 37
+	MUL	shift 36
+	DIV	shift 35
+	MOD	shift 34
+
+
+	.	reduce by rule 16
+
+
+state 51:
+
+	exp : exp . PLUS exp 
+	exp : exp . MINUS exp 
+	exp : exp . MUL exp 
+	exp : exp . DIV exp 
+	exp : exp . MOD exp 
+	exp : exp . NOT_OP exp 
+	exp : exp NOT_OP exp .  (reduce by rule 15)
+	exp : exp . LT_OP exp 
+	exp : exp . GT_OP exp 
+	exp : exp . NE_OP exp 
+	exp : exp . LE_OP exp 
+	exp : exp . GE_OP exp 
+	exp : exp . EQ_OP exp 
+	exp : exp . AND_OP exp 
+	exp : exp . OR_OP exp 
+
+	PLUS	shift 38
+	MINUS	shift 37
+	MUL	shift 36
+	DIV	shift 35
+	MOD	shift 34
+	LT_OP	shift 32
+	GT_OP	shift 31
+	NE_OP	shift 30
+	LE_OP	shift 29
+	GE_OP	shift 28
+	EQ_OP	shift 27
+	AND_OP	shift 26
+	OR_OP	shift 25
+
+
+	.	reduce by rule 15
+
+
+state 52:
+
+	exp : exp . PLUS exp 
+	exp : exp . MINUS exp 
+	exp : exp . MUL exp 
+	exp : exp . DIV exp 
+	exp : exp . MOD exp 
+	exp : exp MOD exp .  (reduce by rule 14)
+	exp : exp . NOT_OP exp 
+	exp : exp . LT_OP exp 
+	exp : exp . GT_OP exp 
+	exp : exp . NE_OP exp 
+	exp : exp . LE_OP exp 
+	exp : exp . GE_OP exp 
+	exp : exp . EQ_OP exp 
+	exp : exp . AND_OP exp 
+	exp : exp . OR_OP exp 
+
+
+
+	.	reduce by rule 14
+
+
+state 53:
+
+	exp : exp . PLUS exp 
+	exp : exp . MINUS exp 
+	exp : exp . MUL exp 
+	exp : exp . DIV exp 
+	exp : exp DIV exp .  (reduce by rule 13)
+	exp : exp . MOD exp 
+	exp : exp . NOT_OP exp 
+	exp : exp . LT_OP exp 
+	exp : exp . GT_OP exp 
+	exp : exp . NE_OP exp 
+	exp : exp . LE_OP exp 
+	exp : exp . GE_OP exp 
+	exp : exp . EQ_OP exp 
+	exp : exp . AND_OP exp 
+	exp : exp . OR_OP exp 
+
+
+
+	.	reduce by rule 13
+
+
+state 54:
+
+	exp : exp . PLUS exp 
+	exp : exp . MINUS exp 
+	exp : exp . MUL exp 
+	exp : exp MUL exp .  (reduce by rule 12)
+	exp : exp . DIV exp 
+	exp : exp . MOD exp 
+	exp : exp . NOT_OP exp 
+	exp : exp . LT_OP exp 
+	exp : exp . GT_OP exp 
+	exp : exp . NE_OP exp 
+	exp : exp . LE_OP exp 
+	exp : exp . GE_OP exp 
+	exp : exp . EQ_OP exp 
+	exp : exp . AND_OP exp 
+	exp : exp . OR_OP exp 
+
+
+
+	.	reduce by rule 12
+
+
+state 55:
+
+	exp : exp . PLUS exp 
+	exp : exp . MINUS exp 
+	exp : exp MINUS exp .  (reduce by rule 11)
+	exp : exp . MUL exp 
+	exp : exp . DIV exp 
+	exp : exp . MOD exp 
+	exp : exp . NOT_OP exp 
+	exp : exp . LT_OP exp 
+	exp : exp . GT_OP exp 
+	exp : exp . NE_OP exp 
+	exp : exp . LE_OP exp 
+	exp : exp . GE_OP exp 
+	exp : exp . EQ_OP exp 
+	exp : exp . AND_OP exp 
+	exp : exp . OR_OP exp 
+
+	MUL	shift 36
+	DIV	shift 35
+	MOD	shift 34
+
+
+	.	reduce by rule 11
+
+
+state 56:
+
+	exp : exp . PLUS exp 
+	exp : exp PLUS exp .  (reduce by rule 10)
+	exp : exp . MINUS exp 
+	exp : exp . MUL exp 
+	exp : exp . DIV exp 
+	exp : exp . MOD exp 
+	exp : exp . NOT_OP exp 
+	exp : exp . LT_OP exp 
+	exp : exp . GT_OP exp 
+	exp : exp . NE_OP exp 
+	exp : exp . LE_OP exp 
+	exp : exp . GE_OP exp 
+	exp : exp . EQ_OP exp 
+	exp : exp . AND_OP exp 
+	exp : exp . OR_OP exp 
+
+	MUL	shift 36
+	DIV	shift 35
+	MOD	shift 34
+
+
+	.	reduce by rule 10
+
+
+state 57:
+
+	stmt : WHILE L_PAREN exp R_PAREN L_BRACE . stmts R_BRACE 
+
+	INT	shift 9
+	ID	shift 8
+	IF	shift 7
+	WHILE	shift 6
+
+	stmts	goto 60
+	stmt	goto 4
+	ass_exp	goto 3
+	types	goto 2
+	decs	goto 1
+
+	.	error
+
+
+state 58:
+
+	exp : L_PAREN exp R_PAREN .  (reduce by rule 9)
+
+
+
+	.	reduce by rule 9
+
+
+state 59:
+
+	stmt : IF L_PAREN exp R_PAREN L_BRACE . stmts R_BRACE 
+	stmt : IF L_PAREN exp R_PAREN L_BRACE . stmts R_BRACE ELSE L_BRACE stmts R_BRACE 
+
+	INT	shift 9
+	ID	shift 8
+	IF	shift 7
+	WHILE	shift 6
+
+	stmts	goto 61
+	stmt	goto 4
+	ass_exp	goto 3
+	types	goto 2
+	decs	goto 1
+
+	.	error
+
+
+state 60:
+
+	stmt : WHILE L_PAREN exp R_PAREN L_BRACE stmts . R_BRACE 
+
+	R_BRACE	shift 62
+
+
+	.	error
+
+
+state 61:
+
+	stmt : IF L_PAREN exp R_PAREN L_BRACE stmts . R_BRACE 
+	stmt : IF L_PAREN exp R_PAREN L_BRACE stmts . R_BRACE ELSE L_BRACE stmts R_BRACE 
+
+	R_BRACE	shift 63
+
+
+	.	error
+
+
+state 62:
+
+	stmt : WHILE L_PAREN exp R_PAREN L_BRACE stmts R_BRACE .  (reduce by rule 28)
+
+
+
+	.	reduce by rule 28
+
+
+state 63:
+
+	stmt : IF L_PAREN exp R_PAREN L_BRACE stmts R_BRACE .  (reduce by rule 26)
+	stmt : IF L_PAREN exp R_PAREN L_BRACE stmts R_BRACE . ELSE L_BRACE stmts R_BRACE 
+
+	ELSE	shift 64
+
+
+	.	reduce by rule 26
+
+
+state 64:
+
+	stmt : IF L_PAREN exp R_PAREN L_BRACE stmts R_BRACE ELSE . L_BRACE stmts R_BRACE 
+
+	L_BRACE	shift 65
+
+
+	.	error
+
+
+state 65:
+
+	stmt : IF L_PAREN exp R_PAREN L_BRACE stmts R_BRACE ELSE L_BRACE . stmts R_BRACE 
+
+	INT	shift 9
+	ID	shift 8
+	IF	shift 7
+	WHILE	shift 6
+
+	stmts	goto 66
+	stmt	goto 4
+	ass_exp	goto 3
+	types	goto 2
+	decs	goto 1
+
+	.	error
+
+
+state 66:
+
+	stmt : IF L_PAREN exp R_PAREN L_BRACE stmts R_BRACE ELSE L_BRACE stmts . R_BRACE 
+
+	R_BRACE	shift 67
+
+
+	.	error
+
+
+state 67:
+
+	stmt : IF L_PAREN exp R_PAREN L_BRACE stmts R_BRACE ELSE L_BRACE stmts R_BRACE .  (reduce by rule 27)
+
+
+
+	.	reduce by rule 27
+
+
+state 68:
+
+
+	EOF	accept
+
+
+	.	error
+
+180 of 315 action table entries left after compaction
+45 goto table entries

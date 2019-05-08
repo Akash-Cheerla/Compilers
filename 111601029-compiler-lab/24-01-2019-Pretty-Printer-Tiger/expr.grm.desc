@@ -1,0 +1,574 @@
+9 shift/reduce conflicts
+
+error:  state 29: shift/reduce conflict (shift EQUAL, reduce by rule 16)
+error:  state 33: shift/reduce conflict (shift DIV, reduce by rule 17)
+error:  state 33: shift/reduce conflict (shift EQUAL, reduce by rule 17)
+error:  state 33: shift/reduce conflict (shift MUL, reduce by rule 17)
+error:  state 33: shift/reduce conflict (shift MINUS, reduce by rule 17)
+error:  state 33: shift/reduce conflict (shift PLUS, reduce by rule 17)
+error:  state 34: shift/reduce conflict (shift EQUAL, reduce by rule 14)
+error:  state 35: shift/reduce conflict (shift EQUAL, reduce by rule 13)
+error:  state 36: shift/reduce conflict (shift EQUAL, reduce by rule 12)
+
+state 0:
+
+	PROGRAM : . PARTS 
+
+	LCUR	shift 6
+	IF	shift 5
+
+	SIMPLE_PART	goto 4
+	PROGRAM	goto 40
+	PART	goto 3
+	PARTS	goto 2
+	IF_PART	goto 1
+
+	.	error
+
+
+state 1:
+
+	PART : IF_PART .  (reduce by rule 4)
+
+
+
+	.	reduce by rule 4
+
+
+state 2:
+
+	PROGRAM : PARTS .  (reduce by rule 0)
+
+
+
+	.	reduce by rule 0
+
+
+state 3:
+
+	PARTS : PART .  (reduce by rule 1)
+	PARTS : PART . PARTS 
+
+	LCUR	shift 6
+	IF	shift 5
+
+	SIMPLE_PART	goto 4
+	PART	goto 3
+	PARTS	goto 7
+	IF_PART	goto 1
+
+	.	reduce by rule 1
+
+
+state 4:
+
+	PART : SIMPLE_PART .  (reduce by rule 3)
+
+
+
+	.	reduce by rule 3
+
+
+state 5:
+
+	IF_PART : IF . CMP_EXPR LCUR PARTS RCUR 
+
+	CONST	shift 12
+	ID	shift 11
+	LPAR	shift 10
+
+	EXP	goto 9
+	CMP_EXPR	goto 8
+
+	.	error
+
+
+state 6:
+
+	SIMPLE_PART : LCUR . STATEMENTS RCUR 
+
+	CONST	shift 12
+	ID	shift 11
+	LPAR	shift 10
+
+	EXP	goto 15
+	STATEMENT	goto 14
+	STATEMENTS	goto 13
+
+	.	error
+
+
+state 7:
+
+	PARTS : PART PARTS .  (reduce by rule 2)
+
+
+
+	.	reduce by rule 2
+
+
+state 8:
+
+	IF_PART : IF CMP_EXPR . LCUR PARTS RCUR 
+
+	LCUR	shift 16
+
+
+	.	error
+
+
+state 9:
+
+	EXP : EXP . PLUS EXP 
+	EXP : EXP . MINUS EXP 
+	EXP : EXP . MUL EXP 
+	EXP : EXP . DIV EXP 
+	EXP : EXP . EQUAL EXP 
+	CMP_EXPR : EXP . LESSTHAN EXP 
+	CMP_EXPR : EXP . GREATERTHAN EXP 
+	CMP_EXPR : EXP . EQUALITY EXP 
+
+	PLUS	shift 24
+	MINUS	shift 23
+	MUL	shift 22
+	EQUAL	shift 21
+	LESSTHAN	shift 20
+	GREATERTHAN	shift 19
+	EQUALITY	shift 18
+	DIV	shift 17
+
+
+	.	error
+
+
+state 10:
+
+	EXP : LPAR . EXP RPAR 
+
+	CONST	shift 12
+	ID	shift 11
+	LPAR	shift 10
+
+	EXP	goto 25
+
+	.	error
+
+
+state 11:
+
+	EXP : ID .  (reduce by rule 11)
+
+
+
+	.	reduce by rule 11
+
+
+state 12:
+
+	EXP : CONST .  (reduce by rule 10)
+
+
+
+	.	reduce by rule 10
+
+
+state 13:
+
+	SIMPLE_PART : LCUR STATEMENTS . RCUR 
+
+	RCUR	shift 26
+
+
+	.	error
+
+
+state 14:
+
+	STATEMENTS : STATEMENT . SEMICOLON 
+	STATEMENTS : STATEMENT . SEMICOLON STATEMENTS 
+
+	SEMICOLON	shift 27
+
+
+	.	error
+
+
+state 15:
+
+	EXP : EXP . PLUS EXP 
+	EXP : EXP . MINUS EXP 
+	EXP : EXP . MUL EXP 
+	EXP : EXP . DIV EXP 
+	EXP : EXP . EQUAL EXP 
+	STATEMENT : EXP .  (reduce by rule 9)
+
+	PLUS	shift 24
+	MINUS	shift 23
+	MUL	shift 22
+	EQUAL	shift 21
+	DIV	shift 17
+
+
+	.	reduce by rule 9
+
+
+state 16:
+
+	IF_PART : IF CMP_EXPR LCUR . PARTS RCUR 
+
+	LCUR	shift 6
+	IF	shift 5
+
+	SIMPLE_PART	goto 4
+	PART	goto 3
+	PARTS	goto 28
+	IF_PART	goto 1
+
+	.	error
+
+
+state 17:
+
+	EXP : EXP DIV . EXP 
+
+	CONST	shift 12
+	ID	shift 11
+	LPAR	shift 10
+
+	EXP	goto 29
+
+	.	error
+
+
+state 18:
+
+	CMP_EXPR : EXP EQUALITY . EXP 
+
+	CONST	shift 12
+	ID	shift 11
+	LPAR	shift 10
+
+	EXP	goto 30
+
+	.	error
+
+
+state 19:
+
+	CMP_EXPR : EXP GREATERTHAN . EXP 
+
+	CONST	shift 12
+	ID	shift 11
+	LPAR	shift 10
+
+	EXP	goto 31
+
+	.	error
+
+
+state 20:
+
+	CMP_EXPR : EXP LESSTHAN . EXP 
+
+	CONST	shift 12
+	ID	shift 11
+	LPAR	shift 10
+
+	EXP	goto 32
+
+	.	error
+
+
+state 21:
+
+	EXP : EXP EQUAL . EXP 
+
+	CONST	shift 12
+	ID	shift 11
+	LPAR	shift 10
+
+	EXP	goto 33
+
+	.	error
+
+
+state 22:
+
+	EXP : EXP MUL . EXP 
+
+	CONST	shift 12
+	ID	shift 11
+	LPAR	shift 10
+
+	EXP	goto 34
+
+	.	error
+
+
+state 23:
+
+	EXP : EXP MINUS . EXP 
+
+	CONST	shift 12
+	ID	shift 11
+	LPAR	shift 10
+
+	EXP	goto 35
+
+	.	error
+
+
+state 24:
+
+	EXP : EXP PLUS . EXP 
+
+	CONST	shift 12
+	ID	shift 11
+	LPAR	shift 10
+
+	EXP	goto 36
+
+	.	error
+
+
+state 25:
+
+	EXP : EXP . PLUS EXP 
+	EXP : EXP . MINUS EXP 
+	EXP : EXP . MUL EXP 
+	EXP : LPAR EXP . RPAR 
+	EXP : EXP . DIV EXP 
+	EXP : EXP . EQUAL EXP 
+
+	PLUS	shift 24
+	MINUS	shift 23
+	MUL	shift 22
+	EQUAL	shift 21
+	RPAR	shift 37
+	DIV	shift 17
+
+
+	.	error
+
+
+state 26:
+
+	SIMPLE_PART : LCUR STATEMENTS RCUR .  (reduce by rule 6)
+
+
+
+	.	reduce by rule 6
+
+
+state 27:
+
+	STATEMENTS : STATEMENT SEMICOLON .  (reduce by rule 7)
+	STATEMENTS : STATEMENT SEMICOLON . STATEMENTS 
+
+	CONST	shift 12
+	ID	shift 11
+	LPAR	shift 10
+
+	EXP	goto 15
+	STATEMENT	goto 14
+	STATEMENTS	goto 38
+
+	.	reduce by rule 7
+
+
+state 28:
+
+	IF_PART : IF CMP_EXPR LCUR PARTS . RCUR 
+
+	RCUR	shift 39
+
+
+	.	error
+
+error:  state 29: shift/reduce conflict (shift EQUAL, reduce by rule 16)
+
+state 29:
+
+	EXP : EXP . PLUS EXP 
+	EXP : EXP . MINUS EXP 
+	EXP : EXP . MUL EXP 
+	EXP : EXP . DIV EXP 
+	EXP : EXP DIV EXP .  (reduce by rule 16)
+	EXP : EXP . EQUAL EXP 
+
+	EQUAL	shift 21
+
+
+	.	reduce by rule 16
+
+
+state 30:
+
+	EXP : EXP . PLUS EXP 
+	EXP : EXP . MINUS EXP 
+	EXP : EXP . MUL EXP 
+	EXP : EXP . DIV EXP 
+	EXP : EXP . EQUAL EXP 
+	CMP_EXPR : EXP EQUALITY EXP .  (reduce by rule 20)
+
+	PLUS	shift 24
+	MINUS	shift 23
+	MUL	shift 22
+	EQUAL	shift 21
+	DIV	shift 17
+
+
+	.	reduce by rule 20
+
+
+state 31:
+
+	EXP : EXP . PLUS EXP 
+	EXP : EXP . MINUS EXP 
+	EXP : EXP . MUL EXP 
+	EXP : EXP . DIV EXP 
+	EXP : EXP . EQUAL EXP 
+	CMP_EXPR : EXP GREATERTHAN EXP .  (reduce by rule 19)
+
+	PLUS	shift 24
+	MINUS	shift 23
+	MUL	shift 22
+	EQUAL	shift 21
+	DIV	shift 17
+
+
+	.	reduce by rule 19
+
+
+state 32:
+
+	EXP : EXP . PLUS EXP 
+	EXP : EXP . MINUS EXP 
+	EXP : EXP . MUL EXP 
+	EXP : EXP . DIV EXP 
+	EXP : EXP . EQUAL EXP 
+	CMP_EXPR : EXP LESSTHAN EXP .  (reduce by rule 18)
+
+	PLUS	shift 24
+	MINUS	shift 23
+	MUL	shift 22
+	EQUAL	shift 21
+	DIV	shift 17
+
+
+	.	reduce by rule 18
+
+error:  state 33: shift/reduce conflict (shift DIV, reduce by rule 17)
+error:  state 33: shift/reduce conflict (shift EQUAL, reduce by rule 17)
+error:  state 33: shift/reduce conflict (shift MUL, reduce by rule 17)
+error:  state 33: shift/reduce conflict (shift MINUS, reduce by rule 17)
+error:  state 33: shift/reduce conflict (shift PLUS, reduce by rule 17)
+
+state 33:
+
+	EXP : EXP . PLUS EXP 
+	EXP : EXP . MINUS EXP 
+	EXP : EXP . MUL EXP 
+	EXP : EXP . DIV EXP 
+	EXP : EXP . EQUAL EXP 
+	EXP : EXP EQUAL EXP .  (reduce by rule 17)
+
+	PLUS	shift 24
+	MINUS	shift 23
+	MUL	shift 22
+	EQUAL	shift 21
+	DIV	shift 17
+
+
+	.	reduce by rule 17
+
+error:  state 34: shift/reduce conflict (shift EQUAL, reduce by rule 14)
+
+state 34:
+
+	EXP : EXP . PLUS EXP 
+	EXP : EXP . MINUS EXP 
+	EXP : EXP . MUL EXP 
+	EXP : EXP MUL EXP .  (reduce by rule 14)
+	EXP : EXP . DIV EXP 
+	EXP : EXP . EQUAL EXP 
+
+	EQUAL	shift 21
+
+
+	.	reduce by rule 14
+
+error:  state 35: shift/reduce conflict (shift EQUAL, reduce by rule 13)
+
+state 35:
+
+	EXP : EXP . PLUS EXP 
+	EXP : EXP . MINUS EXP 
+	EXP : EXP MINUS EXP .  (reduce by rule 13)
+	EXP : EXP . MUL EXP 
+	EXP : EXP . DIV EXP 
+	EXP : EXP . EQUAL EXP 
+
+	MUL	shift 22
+	EQUAL	shift 21
+	DIV	shift 17
+
+
+	.	reduce by rule 13
+
+error:  state 36: shift/reduce conflict (shift EQUAL, reduce by rule 12)
+
+state 36:
+
+	EXP : EXP . PLUS EXP 
+	EXP : EXP PLUS EXP .  (reduce by rule 12)
+	EXP : EXP . MINUS EXP 
+	EXP : EXP . MUL EXP 
+	EXP : EXP . DIV EXP 
+	EXP : EXP . EQUAL EXP 
+
+	MUL	shift 22
+	EQUAL	shift 21
+	DIV	shift 17
+
+
+	.	reduce by rule 12
+
+
+state 37:
+
+	EXP : LPAR EXP RPAR .  (reduce by rule 15)
+
+
+
+	.	reduce by rule 15
+
+
+state 38:
+
+	STATEMENTS : STATEMENT SEMICOLON STATEMENTS .  (reduce by rule 8)
+
+
+
+	.	reduce by rule 8
+
+
+state 39:
+
+	IF_PART : IF CMP_EXPR LCUR PARTS RCUR .  (reduce by rule 5)
+
+
+
+	.	reduce by rule 5
+
+
+state 40:
+
+
+	EOF	accept
+
+
+	.	error
+
+62 of 135 action table entries left after compaction
+30 goto table entries

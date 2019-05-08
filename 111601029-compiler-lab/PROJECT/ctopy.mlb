@@ -1,0 +1,11 @@
+$(SML_LIB)/basis/basis.mlb
+$(SML_LIB)/mlyacc-lib/mlyacc-lib.mlb
+
+ast.sml
+c.grm.sig
+c.grm.sml
+c.lex.sml
+parser.sml
+Translate.sml
+driver.sml
+

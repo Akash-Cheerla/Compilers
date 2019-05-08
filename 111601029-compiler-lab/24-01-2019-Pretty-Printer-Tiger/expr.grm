@@ -1,0 +1,105 @@
+(* This is the preamble where you can have arbitrary sml code. For us
+it is empty *)
+
+%%
+
+%eop EOF
+%verbose
+%pure
+%name Expr
+
+(* The terminals or tokens of the language *)
+%term CONST of int
+    | ID of string
+    | PLUS
+    | MINUS
+    | MUL
+    | EQUAL
+    | LESSTHAN
+    | GREATERTHAN
+    | EQUALITY
+    | EOF
+    | NEWLINE
+    | LPAR
+    | RPAR
+    | DIV
+    | SEMICOLON
+    | LCUR
+    | RCUR
+    | IF
+
+(* The nonterminals of the language *)
+%nonterm EXP     of Ast.Expr
+       | EXPS    of Ast.Expr list
+       | SIMPLE_PART of Ast.Part
+       | STATEMENT of Ast.Statement
+       | STATEMENTS of Ast.Statement list
+       | PROGRAM of Ast.Program
+       | PART of Ast.Part
+       | PARTS of Ast.Part list
+       | IF_PART of Ast.Part
+       | CMP_EXPR of Ast.CmpExpr
+
+%noshift EOF
+(*
+
+Operator precedence and associativity. The %left says the operator is
+left associative and the precedence increase as you go down this list.
+
+*)
+
+%left PLUS MINUS  (* + and - are of same precedence *)
+%left MUL DIV        (* higher than + and -            *)
+
+(* The type that captures position in the input *)
+%pos int
+
+%%
+
+(* 
+PROGRAM : EXPS                 ( EXPS )
+	| EXPS SEMICOLON         ( EXPS )
+
+EXPS    :           ( []                  )
+	| EXP NEWLINE EXPS     ( EXP :: EXPS         )
+
+EXP     : CONST                ( Ast.Const CONST     )
+        | EXP PLUS EXP         ( Ast.plus  EXP1 EXP2 )
+	| EXP MINUS EXP        ( Ast.minus EXP1 EXP2 )
+	| EXP MUL   EXP        ( Ast.mul   EXP1 EXP2 )
+	| LPAR EXP RPAR	       ( EXP )
+	| EXP DIV EXP		( Ast.div EXP1 EXP2 ) *)
+
+
+(* my grammar *)
+
+PROGRAM : PARTS               (Ast.Prts PARTS)
+
+PARTS : PART    ([PART])
+       | PART PARTS  (PART :: PARTS)
+
+PART : SIMPLE_PART  (SIMPLE_PART:Ast.Part)
+    | IF_PART       (IF_PART:Ast.Part)
+
+IF_PART : IF CMP_EXPR LCUR PARTS RCUR(Ast.Ifprt(CMP_EXPR,PARTS))
+
+SIMPLE_PART : LCUR STATEMENTS RCUR  (Ast.Stmnts STATEMENTS)
+
+STATEMENTS :  STATEMENT  SEMICOLON          ([STATEMENT])
+        | STATEMENT SEMICOLON STATEMENTS      (STATEMENT :: STATEMENTS)
+
+STATEMENT : EXP                     (Ast.Ex EXP)
+(*     | EXP NEWLINE EXPS            (EXP :: EXPS) *)
+
+EXP : CONST                           (Ast.Const CONST)
+    | ID			    (Ast.Variable ID)
+    | EXP PLUS EXP                  (Ast.plus EXP1 EXP2)
+    | EXP MINUS EXP                 (Ast.minus EXP1 EXP2)
+    | EXP MUL EXP                   (Ast.mul EXP1 EXP2)
+    | LPAR EXP RPAR                 (EXP)
+    | EXP DIV EXP                   (Ast.div EXP1 EXP2)
+    | EXP EQUAL EXP		    (Ast.equal EXP1 EXP2)
+
+CMP_EXPR : EXP LESSTHAN EXP (Ast.lessthan EXP1 EXP2)
+    | EXP GREATERTHAN EXP (Ast.greaterthan EXP1 EXP2)
+    | EXP EQUALITY EXP (Ast.equality EXP1 EXP2)
